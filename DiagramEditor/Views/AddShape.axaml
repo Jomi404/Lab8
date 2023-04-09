@@ -1,0 +1,194 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
+		Width="500" Height="450"
+        x:Class="DiagramClassEditor.Views.AddShape"
+        Icon="/Assets/kedi.ico"
+        Title="Создание новой ноды диаграммы"
+        xmlns:vm="using:DiagramClassEditor.ViewModels">
+	
+	<Window.Styles>
+		<Style Selector="TabItem">
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Grid TextBlock">
+			<Setter Property="FontSize" Value="14"/>
+		</Style>
+		<Style Selector="Border.b">
+			<Setter Property="BorderBrush" Value="Red"/>
+			<Setter Property="BorderThickness" Value="2"/>
+			<Setter Property="Padding" Value="8"/>
+			<Setter Property="Margin" Value="0 0 0 10"/>
+		</Style>
+		<Style Selector="ListBoxItem">
+			<Setter Property="Padding" Value="4 4 4 0"/>
+		</Style>
+		<Style Selector="Button">
+			<Setter Property="BorderBrush" Value="Red"/>
+			<Setter Property="Padding" Value="4"/>
+			<Setter Property="Background" Value="#9DCFA5"/>
+		</Style>
+		<Style Selector="ComboBox">
+			<Setter Property="Padding" Value="8 4"/>
+			<Setter Property="Height" Value="26"/>
+			<Setter Property="Margin" Value="0 0 6 0"/>
+		</Style>
+		<Style Selector="Grid TextBox">
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="MinHeight" Value="14"/>
+		</Style>
+		<Style Selector="Grid.props TextBox">
+			<Setter Property="FontSize" Value="10"/>
+			<Setter Property="MinHeight" Value="10"/>
+		</Style>
+		<Style Selector="Grid.main Button">
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="Margin" Value="6 6 0 6"/>
+			<Setter Property="Background" Value="#87cefa"/>
+		</Style>
+	</Window.Styles>
+
+	<Grid RowDefinitions="*,auto" ColumnDefinitions="*,*,*" Classes="main">
+	
+	<TabControl Grid.ColumnSpan="3">
+		<TabItem Header="Общие параметры">
+			<Grid ColumnDefinitions="*,2*" RowDefinitions="auto,auto,auto" Margin="8">
+				<TextBlock>Название: </TextBlock>
+				<TextBox Grid.Column="1" Text="{Binding Name}" Margin="0 0 0 10">May be...</TextBox>
+
+				<TextBlock Grid.Row="1">Стереотипы: </TextBlock>
+				<Border Grid.Row="1" Grid.Column="1" Classes="b">
+					<StackPanel>
+						<RadioButton IsChecked="{Binding Stereo_2}">static</RadioButton>
+						<RadioButton IsChecked="{Binding Stereo_3}">abstract</RadioButton>
+					</StackPanel>
+				</Border>
+				
+				<TextBlock Grid.Row="2">Видимость: </TextBlock>
+				<Border Grid.Row="2" Grid.Column="1" Classes="b">
+					<StackPanel>
+						<RadioButton IsChecked="{Binding Access_1}">private</RadioButton>
+						<RadioButton IsChecked="{Binding Access_2}">public</RadioButton>
+						<RadioButton IsChecked="{Binding Access_3}">protected</RadioButton>
+						<RadioButton IsChecked="{Binding Access_3}">package</RadioButton>
+					</StackPanel>
+				</Border>
+			</Grid>
+		</TabItem>
+		
+		<TabItem Header="Атрибуты">
+			<StackPanel>
+				<Button Command="{Binding AddFirstAttr}">
+					<Image Width="24" Height="24" Source="/Assets/bird.png"></Image>
+				</Button>
+				<ListBox Items="{Binding Attributes}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Grid ColumnDefinitions="auto,1.5*,*,*,auto" RowDefinitions="auto,auto">
+								<Button Grid.RowSpan="2" Command="{Binding AddNextAttr}">
+									<Image Width="24" Height="24" Source="/Assets/bird.png"></Image>
+								</Button>
+								<TextBox Grid.Column="1" Watermark="Название" Text="{Binding Name}"/>
+								<TextBox Grid.Column="2" Watermark="Тип" Text="{Binding Type}"/>
+								<TextBox Grid.Column="3" Watermark="Default" Text="{Binding Default}"/>
+								<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+									<ComboBox SelectedIndex="{Binding Access}">
+										<ComboBoxItem>private</ComboBoxItem>
+										<ComboBoxItem>public</ComboBoxItem>
+										<ComboBoxItem>protected</ComboBoxItem>
+										<ComboBoxItem>package</ComboBoxItem>
+									</ComboBox>
+									<CheckBox IsChecked="{Binding IsReadonly}">readonly</CheckBox>
+									<Border Width="10"/>
+									<CheckBox IsChecked="{Binding IsStatic}">static</CheckBox>
+									<Border Width="10"/>
+									<ComboBox SelectedIndex="{Binding Stereo}">
+										<ComboBoxItem>-</ComboBoxItem>
+										<ComboBoxItem>"event"</ComboBoxItem>
+										<ComboBoxItem>"property"</ComboBoxItem>
+										<ComboBoxItem>"required"</ComboBoxItem>
+									</ComboBox>
+								</StackPanel>
+								<Button Grid.Column="4" Grid.RowSpan="2" Command="{Binding RemoveMe}">
+									<Image Width="24" Height="24" Source="/Assets/Trash.png"></Image>
+								</Button>
+							</Grid>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</StackPanel>
+		</TabItem>
+		
+		<TabItem Header="Операции">
+			<StackPanel>
+				<Button Command="{Binding AddFirstMethod}">
+					<Image Width="24" Height="24" Source="/Assets/bird.png"></Image>
+				</Button>
+				<ListBox Items="{Binding Methods}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Grid ColumnDefinitions="auto,1.5*,*,auto" RowDefinitions="auto,auto,auto">
+								<Button Grid.RowSpan="2" Command="{Binding AddNextMethod}">
+									<Image Width="24" Height="24" Source="/Assets/bird.png"></Image>
+								</Button>
+								<TextBox Grid.Column="1" Watermark="Название" Text="{Binding Name}"/>
+								<TextBox Grid.Column="2" Watermark="Тип" Text="{Binding Type}"/>
+								<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+									<ComboBox SelectedIndex="{Binding Access}">
+										<ComboBoxItem>private</ComboBoxItem>
+										<ComboBoxItem>public</ComboBoxItem>
+										<ComboBoxItem>protected</ComboBoxItem>
+										<ComboBoxItem>package</ComboBoxItem>
+									</ComboBox>
+									<ComboBox SelectedIndex="{Binding Stereo}">
+										<ComboBoxItem>virtual</ComboBoxItem>
+										<ComboBoxItem>static</ComboBoxItem>
+										<ComboBoxItem>abstract</ComboBoxItem>
+										<ComboBoxItem>create</ComboBoxItem>
+									</ComboBox>
+								</StackPanel>
+								<StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+									<Button Command="{Binding AddFirstProp}" VerticalAlignment="Top">
+										<Image Width="16" Height="16" Source="/Assets/bird.png"></Image>
+									</Button>
+									<ListBox Items="{Binding Properties}">
+										<ListBox.ItemTemplate>
+											<DataTemplate>
+												<Grid ColumnDefinitions="auto,1.5*,*,*,auto" Classes="props" Margin="0 -4 0 0">
+													<Button Command="{Binding AddNextProp}" VerticalAlignment="Top">
+														<Image Width="16" Height="16" Source="/Assets/bird.png"></Image>
+													</Button>
+													<TextBox Grid.Column="1" Watermark="Название" Text="{Binding Name}"/>
+													<TextBox Grid.Column="2" Watermark="Тип" Text="{Binding Type}"/>
+													<TextBox Grid.Column="3" Watermark="Default" Text="{Binding Default}"/>
+													<Button Grid.Column="4" Command="{Binding RemoveMe}" VerticalAlignment="Top">
+														<Image Width="16" Height="16" Source="/Assets/Trash.png"></Image>
+													</Button>
+												</Grid>
+											</DataTemplate>
+										</ListBox.ItemTemplate>
+									</ListBox>
+								</StackPanel>
+								<Button Grid.Column="3" Grid.RowSpan="2" Command="{Binding RemoveMe}">
+									<Image Width="24" Height="24" Source="/Assets/Trash.png"></Image>
+								</Button>
+							</Grid>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</StackPanel>
+		</TabItem>
+	</TabControl>
+
+	<StackPanel Grid.Row="1" Orientation="Horizontal">
+		<Button Command="{Binding Apply}">Добавить</Button>
+		<Button Command="{Binding Close}">Назад</Button>
+		<Button Command="{Binding Clear}">По умолчанию</Button>
+	</StackPanel>
+
+	</Grid>
+
+</Window>
