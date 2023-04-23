@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using DiagramClassEditor.ViewModels;
+using DiagramEditor.ViewModels;
 using System;
 
-namespace DiagramClassEditor {
+namespace DiagramEditor {
     public class ViewLocator: IDataTemplate {
         public IControl Build(object data) {
             var name = data.GetType().FullName!.Replace("ViewModel", "View");

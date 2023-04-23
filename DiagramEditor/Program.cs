@@ -2,7 +2,7 @@
 using Avalonia.ReactiveUI;
 using System;
 
-namespace DiagramClassEditor {
+namespace DiagramEditor {
     internal class Program {
         [STAThread]
         public static void Main(string[] args) => BuildAvaloniaApp()

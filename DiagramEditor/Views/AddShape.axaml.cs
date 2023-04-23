@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace DiagramClassEditor.Views {
+namespace DiagramEditor.Views {
     public partial class AddShape: Window {
         public AddShape() {
             InitializeComponent();

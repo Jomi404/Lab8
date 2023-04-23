@@ -1,9 +1,10 @@
-﻿using DiagramClassEditor.ViewModels;
+﻿using DiagramEditor.ViewModels;
 using ReactiveUI;
+using System.Collections.Generic;
 using System.Reactive;
 using System.Text;
 
-namespace DiagramClassEditor.Models {
+namespace DiagramEditor.Models {
     public class AttributeItem {
         private static readonly string[] stereos = new string[] { "event", "property", "required" };
 
@@ -56,6 +57,43 @@ namespace DiagramClassEditor.Models {
                 sb.Append(_default);
             }
             return sb.ToString();
+        }
+
+        public Dictionary<string, object> Export() {
+            return new() {
+                ["name"] = name,
+                ["type"] = type,
+                ["access"] = access,
+                ["readonly"] = _readonly,
+                ["static"] = _static,
+                ["stereo"] = stereo,
+                ["default"] = _default,
+            };
+        }
+
+        public AttributeItem(MainWindowViewModel mwvm, object entity) : this(mwvm) { // Import
+            if (entity is not Dictionary<string, object> @dict) { Log.Write("AttributeItem: Ожидался словарь, вместо " + entity.GetType().Name); return; }
+
+            @dict.TryGetValue("name", out var value);
+            name = value is not string @str ? "an" : @str;
+
+            @dict.TryGetValue("type", out var value2);
+            type = value2 is not string @str2 ? "at" : @str2;
+
+            @dict.TryGetValue("access", out var value3);
+            access = value3 is not int @int ? 0 : @int;
+
+            @dict.TryGetValue("readonly", out var value4);
+            _readonly = value4 is bool @bool && @bool;
+
+            @dict.TryGetValue("static", out var value5);
+            _static = value5 is bool @bool2 && @bool2;
+
+            @dict.TryGetValue("stereo", out var value6);
+            stereo = value6 is not int @int2 ? 0 : @int2;
+
+            @dict.TryGetValue("default", out var value7);
+            _default = value7 is not string @str3 ? "ad" : @str3;
         }
     }
 }

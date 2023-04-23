@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace DiagramClassEditor.ViewModels {
+namespace DiagramEditor.ViewModels {
     public class ViewModelBase: ReactiveObject {
     }
 }

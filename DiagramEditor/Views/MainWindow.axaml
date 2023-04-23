@@ -5,25 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
 		Width="1600" Height="900"
-        x:Class="DiagramClassEditor.Views.MainWindow"
+        x:Class="DiagramEditor.Views.MainWindow"
         Icon="/Assets/kedi.ico"
         Title="DiagramClassEditor">
-
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="Экспортировать" Name="menuExport">
-				<MenuItem Header="Экспортировать в PNG" Command="{Binding Export}" CommandParameter="PNG"/>
-				<MenuItem Header="Экспортировать в JSON" Command="{Binding Export}" CommandParameter="JSON"/>
-				<MenuItem Header="Экспортировать в XML" Command="{Binding Export}" CommandParameter="XML"/>
+				<MenuItem Header="Экспортировать в PNG" Command="{Binding ExportB}" CommandParameter="PNG"/>
+				<MenuItem Header="Экспортировать в JSON" Command="{Binding ExportB}" CommandParameter="JSON"/>
+				<MenuItem Header="Экспортировать в XML" Command="{Binding ExportB}" CommandParameter="XML"/>
+				<MenuItem Header="Экспортировать в YAML" Command="{Binding ExportB}" CommandParameter="YAML"/>
 			</MenuItem>
 			<MenuItem Header="Импортировать" Name="menuImport">
-				<MenuItem Header="Импортировать из JSON" Command="{Binding Import}" CommandParameter="JSON"/>
-				<MenuItem Header="Импортировать из XML" Command="{Binding Import}" CommandParameter="XML"/>
+				<MenuItem Header="Импортировать из JSON" Command="{Binding ImportB}" CommandParameter="JSON"/>
+				<MenuItem Header="Импортировать из XML" Command="{Binding ImportB}" CommandParameter="XML"/>
+				<MenuItem Header="Импортировать из YAML" Command="{Binding ImportB}" CommandParameter="YAML"/>
 			</MenuItem>
 		</Menu>
-		<Panel Background="AliceBlue" DragDrop.AllowDrop="True">
-			<TextBlock Text="{Binding Logg}" IsVisible="{Binding ServiceVisible}"/>
-			<Canvas Name="canvas" Cursor="Hand"/>
+		<Panel DragDrop.AllowDrop="True" Tag="scene">
+			<Canvas Background="#7FFFD4" Tag="scene" Name="canvas" Cursor="Hand"/>
+			<TextBlock Text="{Binding Logg}"/>
+			<Grid Background="#aeee" RowDefinitions="*,50*,*" ColumnDefinitions="*,50*,*" IsVisible="{Binding DropboxVisible}">
+				<Border Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="blue">
+					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="48">Перетащите сюда документ XML / JSON / YAML&#13;               Чтобы импортировать его</TextBlock>
+				</Border>
+			</Grid>
 		</Panel>
 	</DockPanel>
 

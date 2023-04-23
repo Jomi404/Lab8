@@ -1,7 +1,7 @@
 using Avalonia.Controls;
-using DiagramClassEditor.ViewModels;
+using DiagramEditor.ViewModels;
 
-namespace DiagramClassEditor.Views {
+namespace DiagramEditor.Views {
     public partial class MainWindow: Window {
         public MainWindow() {
             InitializeComponent();
